@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseModel {
-    private String user;
-    private String password;
+public class Step {
+    private String id;
+    private String name;
+    @Builder.Default
+    private String type = "simpleRunner";
 }

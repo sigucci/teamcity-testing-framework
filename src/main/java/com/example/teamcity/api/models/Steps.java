@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hamcrest.Condition;
+
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseModel {
-    private String user;
-    private String password;
+public class Steps {
+    private Integer count;
+    private List<Step> step;
 }
