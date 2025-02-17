@@ -1,0 +1,81 @@
+### Constants
+@host = 192.168.3.198
+@port = 8111
+@user = admin
+@password = admin123
+
+### HardcodedData
+
+@projectName = project1
+@buildName = build1
+
+
+### GET all projects
+GET http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/projects
+Content-Type: application/json
+Accept: application/json
+
+### Create project
+# @no-cookie-jar
+POST http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/projects
+Content-Type: application/json
+Accept: application/json
+
+{
+  "parentProject": {
+    "locator": "_Root"
+  },
+  "name": "{{projectName}}",
+  "id": "{{projectName}}",
+  "copyAllAssociatedSettings": true
+}
+
+### Create build type
+# @no-cookie-jar
+POST http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/buildTypes
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": "{{buildName}}",
+  "name": "{{buildName}}",
+  "project": {
+    "id": "{{projectName}}"
+  },
+  "parameters": {
+    "property": [
+      {
+        "name": "myBuildParameter",
+        "value": "myValue"
+      }
+    ]
+  },
+  "steps": {
+    "step": [
+      {
+        "name": "myCommandLineStep",
+        "type": "simpleRunner",
+        "properties": {
+          "property": [
+            {
+              "name": "script.content",
+              "value": "echo 'Hello World!'"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+
+### Run build
+# @no-cookie-jar
+POST http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/buildQueue
+Content-Type: application/json
+Accept: application/json
+
+{
+  "buildType": {
+    "id": "{{buildName}}"
+  }
+}
