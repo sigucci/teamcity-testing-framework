@@ -79,3 +79,13 @@ Accept: application/json
     "id": "{{buildName}}"
   }
 }
+
+### Get buildTypes
+GET http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/buildTypes/build1
+Content-Type: application/json
+Accept: application/json
+
+### Get users
+GET http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/users/id:37
+Content-Type: application/json
+Accept: application/json
