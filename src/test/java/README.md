@@ -1,0 +1,1 @@
+1. В процессе реальзации был изменен класс Project, туда добавлены новые поля parentProject и copyAllAssociatedSettings с захардоженными данными. В models добавлен класс ParentProject с полем locator.  

@@ -6,7 +6,7 @@
 
 ### HardcodedData
 
-@projectName = project1
+@projectName = project11
 @buildName = build1
 
 
@@ -22,12 +22,15 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "parentProject": {
-    "locator": "_Root"
-  },
-  "name": "{{projectName}}",
-  "id": "{{projectName}}",
-  "copyAllAssociatedSettings": true
+    "parentProject": {
+        "locator": "_Root"
+    },
+    "name": "name1",
+    "id": "name1",
+    "copyAllAssociatedSettings": true,
+    "sourceProject": {
+        "locator": "project11"
+    }
 }
 
 ### Create build type
