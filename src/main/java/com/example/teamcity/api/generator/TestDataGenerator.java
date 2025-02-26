@@ -5,12 +5,10 @@ import com.example.teamcity.api.annotations.Optional;
 import com.example.teamcity.api.annotations.Parameterizable;
 import com.example.teamcity.api.annotations.Random;
 import com.example.teamcity.api.models.*;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public final class TestDataGenerator {
@@ -18,10 +16,7 @@ public final class TestDataGenerator {
     private TestDataGenerator() {
     }
 
-    public static <T extends BaseModel> T generate(boolean skipExcluded,
-                                                   List<BaseModel> generatedModels,
-                                                   Class<T> generatorClass,
-                                                   Object... parameters) {
+    public static <T extends BaseModel> T generate(boolean skipExcluded, List<BaseModel> generatedModels, Class<T> generatorClass, Object... parameters) {
         try {
             var instance = generatorClass.getDeclaredConstructor().newInstance();
             for (var field : generatorClass.getDeclaredFields()) {
@@ -116,8 +111,6 @@ public final class TestDataGenerator {
     }
 
     public static Project generateProject(boolean full) {
-        // Если full = true – генерируем все поля,
-        // если full = false – генерируем без исключённых (@Exclude) полей.
         TestData data = full ? generateAll() : generateWithoutExcluded();
         return data.getProject();
     }

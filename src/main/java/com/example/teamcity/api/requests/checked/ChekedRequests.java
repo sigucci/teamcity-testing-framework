@@ -18,4 +18,9 @@ public class ChekedRequests {
     public <T extends BaseModel> CheckedBase<T> getRequest(Endpoint endpoint) {
         return (CheckedBase<T>) requests.get(endpoint);
     }
+
+    public RequestSpecification getSpec() {
+        // Здесь возвращаем ту же спецификацию, которая была передана при создании ChekedRequests
+        return requests.values().iterator().next().spec;
+    }
 }

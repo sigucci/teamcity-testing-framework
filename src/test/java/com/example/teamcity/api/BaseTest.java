@@ -2,13 +2,15 @@ package com.example.teamcity.api;
 
 import com.example.teamcity.api.generator.TestDataGenerator;
 import com.example.teamcity.api.generator.TestDataStorage;
+import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.models.TestData;
 import com.example.teamcity.api.requests.checked.ChekedRequests;
 import com.example.teamcity.api.spec.Specifications;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
-import static com.example.teamcity.api.generator.TestDataGenerator.generateAll;
+import static com.example.teamcity.enums.Endpoint.PROJECTS;
+import static com.example.teamcity.enums.Endpoint.USERS;
 
 public class BaseTest {
     protected SoftAssert softy;
@@ -30,5 +32,17 @@ public class BaseTest {
     public void afterTest() {
         softy.assertAll();
         TestDataStorage.getStorage().deleteCreatedEntities();
+    }
+
+    protected ChekedRequests createUser() {
+        superUserChekedRequests.getRequest(USERS).create(testData.getUser());
+        return new ChekedRequests(Specifications.authSpec(testData.getUser()));
+    }
+    protected Project createProject(ChekedRequests requests, Project project) {
+        Project createdProject = requests.<Project>getRequest(PROJECTS).create(project);
+        if (project.getId() == null) {
+            project.setId(createdProject.getId());
+        }
+        return requests.<Project>getRequest(PROJECTS).read(project.getId());
     }
 }

@@ -4,7 +4,6 @@ import com.example.teamcity.api.models.BaseModel;
 import com.example.teamcity.api.requests.unchecked.UncheckedBase;
 import com.example.teamcity.api.spec.Specifications;
 import com.example.teamcity.enums.Endpoint;
-
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Objects;

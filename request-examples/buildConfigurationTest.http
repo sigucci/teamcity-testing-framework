@@ -92,3 +92,15 @@ Accept: application/json
 GET http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/users/id:37
 Content-Type: application/json
 Accept: application/json
+
+### Create negativeProject
+# @no-cookie-jar
+POST http://test_FncPSe6bZj:test_sFrTrfZ7yC@{{host}}:{{port}}/app/rest/projects
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": null,
+  "id": "name1",
+  "copyAllAssociatedSettings": true
+}
