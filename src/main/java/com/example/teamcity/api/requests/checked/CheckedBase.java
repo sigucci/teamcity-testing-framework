@@ -2,7 +2,6 @@ package com.example.teamcity.api.requests.checked;
 
 import com.example.teamcity.api.generator.TestDataStorage;
 import com.example.teamcity.api.models.BaseModel;
-import com.example.teamcity.api.models.TestData;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
 import com.example.teamcity.api.requests.unchecked.UncheckedBase;
