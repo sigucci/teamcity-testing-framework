@@ -5,7 +5,10 @@ import com.example.teamcity.api.generator.TestDataStorage;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.models.TestData;
 import com.example.teamcity.api.requests.checked.ChekedRequests;
+import com.example.teamcity.api.requests.unchecked.UncheckedBase;
 import com.example.teamcity.api.spec.Specifications;
+import com.example.teamcity.enums.Endpoint;
+import io.restassured.response.Response;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
@@ -57,5 +60,20 @@ public class BaseTest {
             softy.assertEquals(project.getId(), createdProject.getId(), "Project id is not correct");
         }
         return createdProject;
+    }
+
+    protected Response createProjectNegative(ChekedRequests requests, boolean full, java.util.function.Consumer<Project> modifier) {
+        Project project = TestDataGenerator.generateProject(full);
+        modifier.accept(project);
+        UncheckedBase unchecked = new UncheckedBase(requests.getSpec(), Endpoint.PROJECTS);
+        return unchecked.create(project);
+    }
+
+    protected Response sendRequestWithoutBody(ChekedRequests requests, String body) {
+        return io.restassured.RestAssured
+                .given()
+                .spec(requests.getSpec())
+                .body(body)
+                .post(Endpoint.PROJECTS.getUrl());
     }
 }
