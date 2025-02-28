@@ -10,18 +10,12 @@ import com.example.teamcity.api.requests.unchecked.UncheckedBase;
 import com.example.teamcity.api.spec.Specifications;
 import com.example.teamcity.enums.Endpoint;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static com.example.teamcity.enums.Endpoint.PROJECTS;
-import static com.example.teamcity.enums.Endpoint.USERS;
 
 public class ProjectNegativeTest extends BaseApiTest {
 
@@ -39,7 +33,7 @@ public class ProjectNegativeTest extends BaseApiTest {
     }
 
     @Test(description = "Создание проекта с пустым телом запроса")
-    public void userCannotCreateProjectWithEmptyBodyTest() {
+    public void userCanNotCreateProjectWithEmptyBodyTest() {
         ChekedRequests userCheckRequests = createUser();
         RequestSpecification spec = userCheckRequests.getSpec();
         Endpoint projectsEndpoint = Endpoint.PROJECTS;
@@ -54,26 +48,26 @@ public class ProjectNegativeTest extends BaseApiTest {
     }
 
     @Test(description = "Создание проекта с некорректно сформированным JSON (после модификации валидного объекта)")
-    public void userCannotCreateProjectWithMalformedJsonTest() throws JsonProcessingException {
+    public void userCanNotCreateProjectWithInvalidJsonTest() throws JsonProcessingException {
         ChekedRequests userCheckRequests = createUser();
         Endpoint projectsEndpoint = Endpoint.PROJECTS;
         Project project = TestDataGenerator.generateProject(false);
 
         ObjectMapper mapper = new ObjectMapper();
         String validJson = mapper.writeValueAsString(project);
-        String malformedJson = validJson.substring(0, validJson.length() - 1);
+        String invalidJson = validJson.substring(0, validJson.length() - 1);
 
         RequestSpecification spec = userCheckRequests.getSpec();
         Response response = io.restassured.RestAssured
                 .given()
                 .spec(spec)
-                .body(malformedJson)
+                .body(invalidJson)
                 .post(projectsEndpoint.getUrl());
 
         softy.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST, "Status code was not 400 Bad Request");
     }
 
-    @Test(description = "Создание проекта с дублированным id должно вернуть ошибку")
+    @Test(description = "Создание проекта с дублированным id")
     public void userCanNotCreateProjectWithDuplicatedIdTest() {
         ChekedRequests userCheckRequests = createUser();
 
@@ -89,8 +83,8 @@ public class ProjectNegativeTest extends BaseApiTest {
         softy.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST, "Status code was not 400 Bad Request");
     }
 
-    @Test(description = "Создание проекта с parentProject не _Root проекта")
-    public void userCreatesProjecw() {
+    @Test(description = "Создание проекта с несуществующим parentProject проекта")
+    public void userCanNotCreateProjectWithNotExistingParentProjectTest() {
         ChekedRequests userCheckRequests = createUser();
 
         Project project = TestDataGenerator.generateProject(true);
@@ -102,8 +96,8 @@ public class ProjectNegativeTest extends BaseApiTest {
         softy.assertEquals(response.getStatusCode(), HttpStatus.SC_NOT_FOUND, "Status code was not 404 Not Found");
     }
 
-    @Test(description = "Создание проекта с parentProject не _Root проекта")
-    public void userCreatesProjecwqwf() {
+    @Test(description = "Создание проекта с несуществующим sourceProject проекта")
+    public void userCanNtCreateProjectWithNotExistingSourceProjectTest() {
         ChekedRequests userCheckRequests = createUser();
 
         Project project = TestDataGenerator.generateProject(true);

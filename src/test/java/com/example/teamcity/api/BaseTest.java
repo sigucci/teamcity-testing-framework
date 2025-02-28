@@ -9,6 +9,9 @@ import com.example.teamcity.api.spec.Specifications;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
+
+import java.util.function.Consumer;
+
 import static com.example.teamcity.enums.Endpoint.PROJECTS;
 import static com.example.teamcity.enums.Endpoint.USERS;
 
@@ -44,5 +47,15 @@ public class BaseTest {
             project.setId(createdProject.getId());
         }
         return requests.<Project>getRequest(PROJECTS).read(project.getId());
+    }
+
+    protected Project createAndValidateProject(ChekedRequests requests, Consumer<Project> modifier, boolean full) {
+        Project project = TestDataGenerator.generateProject(full);
+        modifier.accept(project);
+        Project createdProject = createProject(requests, project);
+        if (project.getId() != null) {
+            softy.assertEquals(project.getId(), createdProject.getId(), "Project id is not correct");
+        }
+        return createdProject;
     }
 }
