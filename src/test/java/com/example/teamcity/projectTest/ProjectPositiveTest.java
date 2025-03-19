@@ -1,6 +1,6 @@
 package com.example.teamcity.projectTest;
 
-import com.example.teamcity.api.BaseTest;
+import com.example.teamcity.BaseTest;
 import com.example.teamcity.api.models.*;
 import com.example.teamcity.api.requests.checked.ChekedRequests;
 import com.example.teamcity.enums.Endpoint;

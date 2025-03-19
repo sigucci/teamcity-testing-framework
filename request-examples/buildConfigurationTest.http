@@ -1,5 +1,5 @@
 ### Constants
-@host = 192.168.3.198
+@host = 192.168.3.194
 @port = 8111
 @user = admin
 @password = admin123
@@ -89,9 +89,10 @@ Content-Type: application/json
 Accept: application/json
 
 ### Get users
-GET http://{{user}}:{{password}}@{{host}}:{{port}}/app/rest/users/id:37
+GET http://{{host}}:{{port}}/app/rest/users
 Content-Type: application/json
 Accept: application/json
+Authorization: Basic base64 (:<4405974728112640516>)
 
 ### Create negativeProject
 # @no-cookie-jar

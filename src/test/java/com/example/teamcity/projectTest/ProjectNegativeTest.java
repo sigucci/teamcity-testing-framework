@@ -1,6 +1,6 @@
 package com.example.teamcity.projectTest;
 
-import com.example.teamcity.api.BaseTest;
+import com.example.teamcity.BaseTest;
 import com.example.teamcity.api.generator.TestDataGenerator;
 import com.example.teamcity.api.models.ParentProject;
 import com.example.teamcity.api.models.Project;
