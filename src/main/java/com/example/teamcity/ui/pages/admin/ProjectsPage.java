@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.example.teamcity.api.models.Project;
 import com.example.teamcity.ui.elements.ProjectElement;
 import com.example.teamcity.ui.pages.BasePage;
 
@@ -16,14 +15,16 @@ import static com.codeborne.selenide.Selenide.$$;
 public class ProjectsPage extends BasePage {
     private static final String PROJECTS_URL = "/favorite/projects";
 
-    private ElementsCollection projectElements = $$("div[class*='Subproject__container']");
+    private static final ElementsCollection projectElements = $$("div[class*='Subproject__container']");
 
-    private SelenideElement spanFavoriteProjects = $("span[class='ProjectPageHeader__title--ih']");
+    private static final SelenideElement spanFavoriteProjects = $("span[class='ProjectPageHeader__title--ih']");
 
-    private SelenideElement header = $(".MainPanel__router--gF > div");
+    private static final SelenideElement header = $(".MainPanel__router--gF > div");
+
+    private static final ElementsCollection getProjectByName = $$("span.ProjectsTreeItem__name--uT");
 
     public static ProjectsPage open() {
-    return Selenide.open(PROJECTS_URL, ProjectsPage.class);
+        return Selenide.open(PROJECTS_URL, ProjectsPage.class);
     }
 
     public ProjectsPage() {
@@ -32,5 +33,13 @@ public class ProjectsPage extends BasePage {
 
     public List<ProjectElement> getProjects() {
         return generatePageElements(projectElements, ProjectElement::new);
+    }
+
+    public ProjectPage getProjectByName(String projectName) {
+        getProjectByName.findBy(Condition.text(projectName))
+                .shouldBe(Condition.visible)
+                .click();
+
+        return new ProjectPage();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.teamcity.buildTypeUiTest;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.enums.Endpoint;
@@ -10,9 +11,9 @@ import com.example.teamcity.ui.pages.admin.ProjectPage;
 import com.example.teamcity.ui.pages.admin.ProjectsPage;
 import org.testng.annotations.Test;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.example.teamcity.ui.pages.admin.ProjectPage.BuildName;
 
-public class BuildTypeUiPositiveTest extends BaseUiTest {
+public class BuildTypeUiTests extends BaseUiTest {
 
     private static final String REPO_URL = "https://github.com/AlexPshe/spring-core-for-qa";
 
@@ -29,15 +30,16 @@ public class BuildTypeUiPositiveTest extends BaseUiTest {
         ProjectPage.open(createdProject.getId());
         ProjectsPage.open().getProjects();
 
-        SelenideElement project = $$("span.ProjectsTreeItem__name--uT")
-                .findBy(Condition.text(testData.getProject().getName()));
-        project.click();
+        ProjectsPage.open()
+                .getProjectByName(testData.getProject().getName())
+                .getBuildName(testData.getBuildType().getName());
 
-        SelenideElement build = $$("span.MiddleEllipsis__searchable--uZ")
-                .findBy(Condition.text(testData.getBuildType().getName()));
-        build.shouldBe(Condition.visible);
-
-        softy.assertEquals(build.text(), testData.getBuildType().getName());
+        softy.assertEquals(
+                BuildName.findBy(Condition.text(testData.getBuildType().getName()))
+                        .shouldBe(Condition.visible)
+                        .text(),
+                testData.getBuildType().getName()
+        );
     }
 
     @Test(description = "Создание двух билдов с одинаковыми названиями")
@@ -48,21 +50,23 @@ public class BuildTypeUiPositiveTest extends BaseUiTest {
                 .createBuildForm(REPO_URL)
                 .setupBuild(testData.getBuildType().getName());
 
-        String buildTypeName = $("#buildTypeName").shouldBe(Condition.visible).getValue();
+        String buildTypeName = CreateBuildPage.getBuildName();
 
         new CreateBuildPage().submit();
+
+        //Выявил, что тест иногда падает после создания проекта, потому что не может найти строку ввода url после загрузки страницы.
+        // Небольшой задержкой эта проблема полностью решается.
+        Selenide.sleep(2000);
 
         CreateBuildPage.open(createdProject.getId())
                 .createBuildForm(REPO_URL)
-                .setupBuild(buildTypeName);
+                .setupBuild(buildTypeName)
+                .submit();
 
-        new CreateBuildPage().submit();
+        new CreateBuildPage().submitAnywayButton();
 
-        SelenideElement submitAnywayButton = $("#submitAnywayButton")
-                .shouldBe(Condition.visible);
-        submitAnywayButton.click();
+        SelenideElement errorMessage = new CreateBuildPage().getErrorMessage();
 
-        SelenideElement errorMessage = $("#error_buildTypeName")
-                .shouldBe(Condition.visible);
+        softy.assertTrue(errorMessage.isDisplayed());
     }
 }
