@@ -7,6 +7,7 @@ import com.codeborne.selenide.SelenideElement;
 import com.example.teamcity.ui.elements.ProjectElement;
 import com.example.teamcity.ui.pages.BasePage;
 
+import java.time.Duration;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -22,6 +23,10 @@ public class ProjectsPage extends BasePage {
     private static final SelenideElement header = $(".MainPanel__router--gF > div");
 
     private static final ElementsCollection getProjectByName = $$("span.ProjectsTreeItem__name--uT");
+
+    private static final SelenideElement searchProjectInput = $("#search-projects");
+
+    private static final ElementsCollection searchedProjects = $$("span.ProjectsTreeItem__name--uT.ring-global-ellipsis");
 
     public static ProjectsPage open() {
         return Selenide.open(PROJECTS_URL, ProjectsPage.class);
@@ -41,5 +46,14 @@ public class ProjectsPage extends BasePage {
                 .click();
 
         return new ProjectPage();
+    }
+
+    public ProjectsPage searchProjectInput(String projectName) {
+        searchProjectInput.shouldBe(Condition.visible).setValue(projectName).pressEnter();
+        return this;
+    }
+
+    public SelenideElement getSearchedProjectByName(String projectName) {
+        return searchedProjects.findBy(Condition.text(projectName)).shouldBe(Condition.visible);
     }
 }

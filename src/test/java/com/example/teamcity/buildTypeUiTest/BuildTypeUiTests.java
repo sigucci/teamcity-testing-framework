@@ -69,4 +69,18 @@ public class BuildTypeUiTests extends BaseUiTest {
 
         softy.assertTrue(errorMessage.isDisplayed());
     }
+
+    @Test(description = "Поиск проекта по имени")
+    public void userCanSearchProjectByName() {
+        var createdProject = superUserChekedRequests.<Project>getRequest(Endpoint.PROJECTS).read("name:" + testData.getProject().getName());
+
+        ProjectsPage projectsPage = ProjectsPage.open()
+                .searchProjectInput(createdProject.getName());
+
+        String foundProjectName = projectsPage
+                .getSearchedProjectByName(createdProject.getName())
+                .text();
+
+        softy.assertEquals(foundProjectName, createdProject.getName());
+    }
 }
