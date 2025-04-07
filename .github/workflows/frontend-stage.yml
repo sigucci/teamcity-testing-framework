@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build frontend
-        run: echo Собирается билд фронтенда (прогоняются юнит тесты при сборке), формируется и публикуется docker-образ
+        run: echo Собирается билд фронтенда, прогоняются юнит тесты при сборке, формируется и публикуется docker-образ
 
   deploy-stage:
     needs: test
