@@ -1,17 +1,17 @@
-package com.example.teamcity.buildTypeUiTest;
+package com.example.teamcity.ui;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.enums.Endpoint;
-import com.example.teamcity.ui.BaseUiTest;
 import com.example.teamcity.ui.pages.admin.CreateBuildPage;
 import com.example.teamcity.ui.pages.admin.ProjectPage;
 import com.example.teamcity.ui.pages.admin.ProjectsPage;
 import org.testng.annotations.Test;
 import static com.example.teamcity.ui.pages.admin.ProjectPage.BuildName;
 
+@Test(groups = {"Regression"})
 public class BuildTypeUiTests extends BaseUiTest {
 
     private static final String REPO_URL = "https://github.com/AlexPshe/spring-core-for-qa";
@@ -53,8 +53,6 @@ public class BuildTypeUiTests extends BaseUiTest {
 
         new CreateBuildPage().submit();
 
-        //Выявил, что тест иногда падает после создания проекта, потому что не может найти строку ввода url после загрузки страницы.
-        // Небольшой задержкой эта проблема полностью решается.
         Selenide.sleep(2000);
 
         CreateBuildPage.open(createdProject.getId())

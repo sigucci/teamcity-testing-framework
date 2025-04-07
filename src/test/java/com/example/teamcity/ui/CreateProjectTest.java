@@ -1,6 +1,7 @@
 package com.example.teamcity.ui;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.enums.Endpoint;
 import com.example.teamcity.ui.pages.LoginPage;
@@ -31,9 +32,13 @@ public class CreateProjectTest extends BaseUiTest {
         ProjectPage.open(createdProject.getId())
                 .title.shouldHave(Condition.exactText(testData.getProject().getName()));
 
+        Selenide.sleep(2000);
+
         var foundProjects = ProjectsPage.open()
                 .getProjects().stream()
                 .anyMatch(project -> project.getName().text().equals(testData.getProject().getName()));
+
+        Selenide.sleep(2000);
 
         softy.assertTrue(foundProjects);
 
