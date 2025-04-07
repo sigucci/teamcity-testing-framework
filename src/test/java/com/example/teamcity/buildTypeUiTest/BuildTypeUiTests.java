@@ -10,7 +10,6 @@ import com.example.teamcity.ui.pages.admin.CreateBuildPage;
 import com.example.teamcity.ui.pages.admin.ProjectPage;
 import com.example.teamcity.ui.pages.admin.ProjectsPage;
 import org.testng.annotations.Test;
-import static com.codeborne.selenide.Selenide.$;
 import static com.example.teamcity.ui.pages.admin.ProjectPage.BuildName;
 
 public class BuildTypeUiTests extends BaseUiTest {

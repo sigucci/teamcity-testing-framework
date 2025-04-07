@@ -2,6 +2,7 @@ package com.example.teamcity;
 
 import com.example.teamcity.api.generator.TestDataGenerator;
 import com.example.teamcity.api.generator.TestDataStorage;
+import com.example.teamcity.api.models.BaseModel;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.models.TestData;
 import com.example.teamcity.api.requests.checked.ChekedRequests;

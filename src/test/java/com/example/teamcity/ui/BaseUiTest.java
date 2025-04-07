@@ -32,17 +32,4 @@ public class BaseUiTest extends BaseTest {
     public void closeWebDriver() {
         Selenide.closeWebDriver();
     }
-
-    protected void loginAs(User user) {
-        superUserChekedRequests.getRequest(Endpoint.USERS).create(testData.getUser());
-        LoginPage.open().login(testData.getUser());
-    }
-
-    @BeforeMethod
-    public void createProject() {
-        loginAs(testData.getUser());
-
-        superUserChekedRequests.<Project>getRequest(PROJECTS)
-                .create(testData.getProject());
-    }
 }

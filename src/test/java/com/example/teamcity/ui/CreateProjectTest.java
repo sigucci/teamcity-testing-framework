@@ -3,6 +3,7 @@ package com.example.teamcity.ui;
 import com.codeborne.selenide.Condition;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.enums.Endpoint;
+import com.example.teamcity.ui.pages.LoginPage;
 import com.example.teamcity.ui.pages.admin.CreateProjectPage;
 import com.example.teamcity.ui.pages.admin.ProjectPage;
 import com.example.teamcity.ui.pages.admin.ProjectsPage;
@@ -17,7 +18,8 @@ public class CreateProjectTest extends BaseUiTest {
     @Test(description = "User should be able to create project", groups = {"Positive"})
     public void userCreatesProject() {
 
-        loginAs(testData.getUser());
+        superUserChekedRequests.getRequest(Endpoint.USERS).create(testData.getUser());
+        LoginPage.open().login(testData.getUser());
 
         CreateProjectPage.open("_Root")
                 .createForm(REPO_URL)

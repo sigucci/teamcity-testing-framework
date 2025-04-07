@@ -1,5 +1,6 @@
 package com.example.teamcity.api;
 
+import com.example.teamcity.BaseTest;
 import com.example.teamcity.api.models.BuildType;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.requests.checked.ChekedRequests;
